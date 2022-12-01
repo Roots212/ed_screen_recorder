@@ -31,6 +31,14 @@ class EdScreenRecorder {
     var uuid = const Uuid();
     String videoHash = uuid.v1().replaceAll('-', '');
     var dateNow = DateTime.now().microsecondsSinceEpoch;
+    if (kDebugMode) {
+      debugPrint("""
+      >>> Start Record Response input:  
+      file name: $fileName
+      dirpathtosave: $dirPathToSave,
+
+      """);
+    }
     var response = await _channel.invokeMethod('startRecordScreen', {
       "audioenable": audioEnable,
       "filename": fileName,
