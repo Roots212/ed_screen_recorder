@@ -80,6 +80,8 @@ class EdScreenRecorder {
     });
 
     var formatResponse = RecordOutput.fromJson(json.decode(response));
+
+    
     if (kDebugMode) {
       debugPrint("""
       >>> Stop Record Response Output:  
