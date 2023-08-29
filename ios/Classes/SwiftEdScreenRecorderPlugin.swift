@@ -230,9 +230,12 @@ public class SwiftEdScreenRecorderPlugin: NSObject, FlutterPlugin {
             if(self.isAudioEnabled) {
                 self.audioInput?.markAsFinished();
             }
+                                            print("here in completeion");
 
-           if (videoWriter?.status == AVAssetWriter.Status.writing) {
+           if (videoWriter?.status == AVAssetWriter.Status.completed) {
+            print(videoWriter?.status)
             videoWriter?.finishWriting(completionHandler:  {
+
                  print("Finished writing video");
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: self.videoOutputURL!)
