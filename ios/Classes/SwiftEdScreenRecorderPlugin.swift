@@ -231,17 +231,22 @@ public class SwiftEdScreenRecorderPlugin: NSObject, FlutterPlugin {
                 self.audioInput?.markAsFinished();
             }
 
-            self.videoWriter?.finishWriting {
+           if (videoWriter?.status == AVAssetWriter.Status.writing) {
+            videoWriter?.finishWritingWithCompletionHandler {
                 print("Finished writing video");
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: self.videoOutputURL!)
                 })
                 self.message="stopRecordScreenFromApp"
             }
-        }else{
-            self.message="You haven't start the recording unit now!"
+        } else {
+            print("Video writer is not in writing state")
+            self.message="Video writer is not in writing state"
         }
-        return Bool(res);
+    }else{
+        self.message="You haven't start the recording unit now!"
+    }
+    return Bool(res);
 
 }
 }
