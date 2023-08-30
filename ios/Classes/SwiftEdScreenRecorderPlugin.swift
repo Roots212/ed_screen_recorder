@@ -215,6 +215,7 @@ public class SwiftEdScreenRecorderPlugin: NSObject, FlutterPlugin {
         if(recorder.isRecording){
             if #available(iOS 11.0, *) {
                 recorder.stopCapture( handler: { (error) in
+                    print("Stopping recording...");
                     if(error != nil){
                         res = Bool(false)
                         self.message = "Has Got Error in stop record"
@@ -229,26 +230,18 @@ public class SwiftEdScreenRecorderPlugin: NSObject, FlutterPlugin {
             if(self.isAudioEnabled) {
                 self.audioInput?.markAsFinished();
             }
-                                            print("here in completeion");
 
-           if (videoWriter?.status == AVAssetWriter.Status.completed) {
-            print(videoWriter?.status)
-            videoWriter?.finishWriting(completionHandler:  {
-
-                 print("Finished writing video");
+            self.videoWriter?.finishWriting {
+                print("Finished writing video");
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: self.videoOutputURL!)
                 })
                 self.message="stopRecordScreenFromApp"
-            })
-        } else {
-            print("Video writer is not in writing state")
-            self.message="Video writer is not in writing state"
+            }
+        }else{
+            self.message="You haven't start the recording unit now!"
         }
-    }else{
-        self.message="You haven't start the recording unit now!"
-    }
-    return Bool(res);
+        return Bool(res);
 
 }
 }
