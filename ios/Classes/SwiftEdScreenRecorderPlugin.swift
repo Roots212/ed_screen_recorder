@@ -215,7 +215,6 @@ public class SwiftEdScreenRecorderPlugin: NSObject, FlutterPlugin {
         if(recorder.isRecording){
             if #available(iOS 11.0, *) {
                 recorder.stopCapture( handler: { (error) in
-                    print("Stopping recording...");
                     if(error != nil){
                         res = Bool(false)
                         self.message = "Has Got Error in stop record"
